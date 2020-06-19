@@ -1,6 +1,10 @@
 package Lesson1;
 
-public class ArrayIndexExchange <T> {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ArrayIndexExchange<T> {
     private T[] myArr;
 
     public ArrayIndexExchange(T[] myArr) {
@@ -18,6 +22,11 @@ public class ArrayIndexExchange <T> {
             myArr[ind2] = value1;
         }
     }
+
+    public List<T> upToArrayList() {
+        return new ArrayList<>(Arrays.asList(myArr));
+    }
+
     public void print() {
         for (T i : myArr
              ) {
@@ -42,5 +51,14 @@ public class ArrayIndexExchange <T> {
         test2.print();
         test2.exchIndx(1,3);
         test2.print();
+
+        List<Integer> myIntList = test1.upToArrayList();
+        myIntList.add(6);
+        myIntList.add(7);
+        System.out.print("Новый ArrayList: ");
+        for (Integer i: myIntList
+             ) {
+            System.out.print(i + " ");
+        }
     }
 }
