@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ArrayIndexExchange<T> {
+public class ArrayChange<T> {
     private T[] myArr;
 
-    public ArrayIndexExchange(T[] myArr) {
+    public ArrayChange(T[] myArr) {
         this.myArr = myArr;
     }
 
@@ -36,7 +36,7 @@ public class ArrayIndexExchange<T> {
     }
 
     public static void main(String[] args) {
-        ArrayIndexExchange<Integer> test1 = new ArrayIndexExchange<>(new Integer[]{1, 2, 3, 4, 5});
+        ArrayChange<Integer> test1 = new ArrayChange<>(new Integer[]{1, 2, 3, 4, 5});
         test1.exchIndx(-1,5);
         test1.print();
         test1.exchIndx(0,4);
@@ -44,7 +44,7 @@ public class ArrayIndexExchange<T> {
         test1.exchIndx(1,3);
         test1.print();
 
-        ArrayIndexExchange<String> test2 = new ArrayIndexExchange<>(new String[]{"one", "two", "three", "four", "five"});
+        ArrayChange<String> test2 = new ArrayChange<>(new String[]{"one", "two", "three", "four", "five"});
         test2.exchIndx(8,5);
         test2.print();
         test2.exchIndx(0,4);
