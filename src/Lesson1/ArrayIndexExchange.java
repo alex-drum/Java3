@@ -1,19 +1,10 @@
 package Lesson1;
 
-import java.util.Arrays;
-
 public class ArrayIndexExchange <T> {
     private T[] myArr;
 
     public ArrayIndexExchange(T[] myArr) {
         this.myArr = myArr;
-    }
-
-    @Override
-    public String toString() {
-        return "ArrayIndexExchange{" +
-                "myArr=" + Arrays.toString(myArr) +
-                '}';
     }
 
     public void exchIndx (int ind1, int ind2) {
