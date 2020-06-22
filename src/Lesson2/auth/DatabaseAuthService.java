@@ -89,9 +89,10 @@ public class DatabaseAuthService implements AuthenticationService {
             conn = DriverManager.
                     getConnection("jdbc:h2:~/test", "sa", "");
             Statement statement = conn.createStatement();
-            statement.execute("update users set nick = 'newNick' where id = 1");
+            statement.execute("update users set nick = '" +
+                            newNick + "' where nick = '" + oldNick + "'");
 
-            ResultSet rs = statement.executeQuery("select * from users where login = 'login1'");
+            ResultSet rs = statement.executeQuery("select * from users where nick = '" + newNick + "'");
             System.out.println(rs);
             while (rs.next()) {
                 newNickUpdated = rs.getString(4);
