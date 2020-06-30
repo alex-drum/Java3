@@ -40,22 +40,5 @@ public class ChatSceneApp extends Application {
         primaryStage.setScene(scenes.get(SceneFlow.LOGIN).getScene());
         primaryStage.setTitle("Login");
         primaryStage.show();
-
-        //        String logSrc = "C:\\Users\\Public\\nick1 logs.txt";
-//        File logFile = new File(logSrc);
-//        System.out.println(logFile.length());;
-//        FileReader fr = new FileReader(logFile);
-//        BufferedReader br = new BufferedReader(fr);
-//        String msg = br.readLine();
-//        System.out.println(msg);
-//        messageArea.getEngine().loadContent(msg);
-
-
-//        while (msg != null) {
-//            msg = br.readLine();
-//            messageArea.getEngine().loadContent(msg);
-//            System.out.println(msg);
-//        }
-
     }
 }

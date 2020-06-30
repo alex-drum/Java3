@@ -115,7 +115,6 @@ public class ChatController implements Stageable {
 
             while (msg != null) {
                     string = string.concat("<p>" + br.readLine() + "</p>");
-                    System.out.println(string);
                     msg = br.readLine();
             }
         } catch (IOException e) {
