@@ -1,10 +1,12 @@
 
 import auth.DatabaseAuthService;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 
 public class ClientHandler {
     private MyServer myServer;
@@ -13,6 +15,7 @@ public class ClientHandler {
     private DataOutputStream out;
     private String name;
     private String password;
+    private String logFile = "";
 
     public String getName() {
         return name;
@@ -72,7 +75,13 @@ public class ClientHandler {
                     String[] parts = message.split("\\s");
                     String realMessage = message.substring(message.indexOf(" ", message.indexOf(" ") + 1));
                     myServer.sendDirect(parts[1],name + ": "+ realMessage);
-                } else myServer.broadcast(name + ": " + message, true);
+                    String sToLog = message + "\n";
+                    Files.write(Paths.get(logFile), sToLog.getBytes(), StandardOpenOption.APPEND);
+                } else {
+                    myServer.broadcast(name + ": " + message, true);
+                    String sToLog = message + "\n";
+                    Files.write(Paths.get(logFile), sToLog.getBytes(), StandardOpenOption.APPEND);
+                }
             }
         }
     }
@@ -92,6 +101,13 @@ public class ClientHandler {
                             sendMsg("/authOk " + nick);
                             myServer.broadcast(nick + " is in chat", true);
                             myServer.subscribe(this);
+                            logFile = "C:\\Users\\Public\\" + name + "_logs.txt";
+                            if (!Files.exists(Paths.get(logFile))) {
+                                FileOutputStream fos = new FileOutputStream(logFile);
+                                fos.close();
+                            }
+                            String msg = LocalDateTime.now() + ": " + nick + " is in chat\n";
+                            Files.write(Paths.get(logFile), msg.getBytes(), StandardOpenOption.APPEND);
                             return;
                         } else {
                             System.out.println("User " + nick + " tried to re-enter");
@@ -110,6 +126,8 @@ public class ClientHandler {
     public void sendMsg(String s) {
         try {
             out.writeUTF(s);
+            String sToLog = s + "\n";
+            Files.write(Paths.get(logFile), sToLog.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }

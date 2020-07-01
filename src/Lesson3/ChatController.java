@@ -15,10 +15,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Paths;
 
 public class ChatController implements Stageable {
     private ObservableList<String> nickListItems;
@@ -42,10 +41,11 @@ public class ChatController implements Stageable {
     @FXML
     ListView nickList;
 
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, InterruptedException, FileNotFoundException {
         readerThread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
                     while (!Thread.interrupted()) {
                         if (in.available()>0) {
@@ -84,6 +84,7 @@ public class ChatController implements Stageable {
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
         myNick = ChatSceneApp.getScenes().get(SceneFlow.CHAT).getNick();
+
         while (true) {
             if(in.available()>0) {
                 String strFromServer = in.readUTF();
@@ -95,6 +96,32 @@ public class ChatController implements Stageable {
         }
         nickList.setItems(nickListItems);
         nickList.getSelectionModel().select(0);
+
+
+        Platform.runLater(()->{
+        String logSrc = "C:\\Users\\Public\\nick1_logs.txt";
+        File logFile = new File(logSrc);
+        FileReader fr = null;
+        try {
+            fr = new FileReader(logFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(fr);
+        String msg = "";
+        String string = "";
+        try {
+            msg = br.readLine();
+
+            while (msg != null) {
+                    string = string.concat("<p>" + br.readLine() + "</p>");
+                    msg = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        messageArea.getEngine().loadContent(string);
+        });
     }
 
     private void terminateClient() {
