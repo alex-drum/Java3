@@ -53,16 +53,6 @@ public class MyServer {
         broadcastClientsList();
     }
 
-    public synchronized void replaceClient (String name) {
-        for (ClientHandler o: clients
-             ) {
-            if (o.getName().equalsIgnoreCase(name)) {
-                System.out.println("Client is found and ready to change nick!");
-            }
-
-        }
-    }
-
     public synchronized void broadcast(String s, boolean addTime) {
         if (addTime) s += "@" + LocalTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
         for(ClientHandler client: clients) {
