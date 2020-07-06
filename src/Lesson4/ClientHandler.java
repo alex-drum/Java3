@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
     private MyServer myServer;
@@ -28,16 +30,8 @@ public class ClientHandler {
         try {
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
-            new Thread(()-> {
-                try {
-                    authenticate();
-                    readMessages();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    closeConnection();
-                }
-            }).start();
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(myHandlerThread);
         } catch (IOException ex) {
             throw new RuntimeException("Client creation error");
         }
@@ -132,4 +126,18 @@ public class ClientHandler {
             e.printStackTrace();
         }
     }
+
+    Thread myHandlerThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                authenticate();
+                readMessages();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                closeConnection();
+            }
+        }
+    });
 }
